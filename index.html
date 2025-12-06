@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ověřování...</title>
+    <style>
+        /* CSS pro centrování na jakémkoli zařízení */
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #303030; /* Tmavé pozadí */
+            color: #f0f0f0; /* Světlý text */
+            text-align: center;
+        }
+
+        .container {
+            padding: 20px;
+            background-color: #222;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+        }
+
+        h1 {
+            color: #64ffda; /* Jasná barva pro text PÍP PÍP */
+            font-size: 2.5em;
+            margin-bottom: 5px;
+        }
+
+        p {
+            color: #bbb;
+            font-size: 1.1em;
+            margin-top: 0;
+        }
+        
+        .small-text {
+            font-size: 0.9em;
+            color: #888;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>PÍP PÍP, TUDŮD - DĚKUJEME!</h1>
+        <p>Ověřujeme, že nejste robot...</p>
+        <p class="small-text">Porovnávání RayID se serverem... Zabere to jen chvilku...</p>
+    </div>
+
+    <script>
+        const initialDelay = 9000; // Počáteční zpoždění 9 sekund
+        const stepDelay = 2000;    // Zpoždění 2 sekundy mezi jednotlivými otevřeními
+        
+        // Seznam URL, které chceme postupně otevřít
+        const urls = [
+            'https://nts-windows-tools.github.io/NTS-65f6bgh5gfh5gj6hzh98gv4-55-shopNTS/',
+            'https://www.datart.cz',
+            'https://nts-windows-tools.github.io/soutez-o-podlozku-hjdhfgdf54tdh48sdf4hd5gfh458gr4fh8/'
+        ];
+
+        /**
+         * Sekvenčně otevírá URL adresy s definovaným zpožděním.
+         * * UPOZORNĚNÍ: Prohlížeče téměř jistě zablokují VŠECHNY pop-upy kromě prvního.
+         */
+        function openSequence() {
+            let totalDelay = 0;
+
+            urls.forEach((url, index) => {
+                // Nastavení celkového zpoždění pro aktuální URL
+                // První odkaz se otevře po 9000 ms. Každý další přidá 2000 ms.
+                totalDelay = initialDelay + (index * stepDelay);
+                
+                setTimeout(() => {
+                    console.log(`[${new Date().toLocaleTimeString()}] Pokus o otevření URL #${index + 1}: ${url}`);
+                    
+                    // Otevření na nové kartě
+                    window.open(url, '_blank'); 
+                    
+                    // Poznámka: Tato zpráva se zobrazí v konzoli (F12), 
+                    // i když prohlížeč otevírání zablokuje.
+                    
+                }, totalDelay);
+            });
+        }
+
+        // Spuštění sekvence po načtení stránky
+        openSequence();
+
+    </script>
+</body>
+</html>
