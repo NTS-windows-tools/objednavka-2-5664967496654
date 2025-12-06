@@ -3,94 +3,115 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ověřování...</title>
-    <style>
-        /* CSS pro centrování na jakémkoli zařízení */
-        body {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            margin: 0;
-            font-family: Arial, sans-serif;
-            background-color: #303030; /* Tmavé pozadí */
-            color: #f0f0f0; /* Světlý text */
-            text-align: center;
-        }
-
-        .container {
-            padding: 20px;
-            background-color: #222;
-            border-radius: 8px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
-        }
-
-        h1 {
-            color: #64ffda; /* Jasná barva pro text PÍP PÍP */
-            font-size: 2.5em;
-            margin-bottom: 5px;
-        }
-
-        p {
-            color: #bbb;
-            font-size: 1.1em;
-            margin-top: 0;
-        }
-        
-        .small-text {
-            font-size: 0.9em;
-            color: #888;
-        }
-    </style>
+    <title>Sledování Zásilky - Yucan Fullfillment</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 </head>
 <body>
-
     <div class="container">
-        <h1>PÍP PÍP, TUDŮD - DĚKUJEME!</h1>
-        <p>Ověřujeme, že nejste robot...</p>
-        <p class="small-text">Porovnávání RayID se serverem... Zabere to jen chvilku...</p>
+        <h1>Yucan Fullfillment From NTS</h1>
+
+        <hr>
+
+        <h2>Sledování Vaší zásilky č. XXXX - zásilka cestuje pozemní přepravou. Doručíme do: XXXXX</h2>
+        
+        <div class="tracking-timeline">
+            <div class="timeline-item" data-status="ceka" data-index="0">
+                <span class="status-icon"></span>
+                <p>O Vaší zásilce už víme a čekáme, až nám ji odesílatel předá</p>
+            </div>
+
+            <div class="timeline-item" data-status="ceka" data-index="1">
+                <span class="status-icon"></span>
+                <p>Přijali jsme Vaši zásilku; e-mail příjemci "Přijali jsme Vašu zásilku"</p>
+            </div>
+
+            <div class="timeline-item" data-status="ceka" data-index="2">
+                <span class="status-icon"></span>
+                <p>Zásilka je v přepravě</p>
+            </div>
+
+            <div class="timeline-item" data-status="ceka" data-index="3">
+                <span class="status-icon"></span>
+                <p>Zásilka dorazila na depo</p>
+            </div>
+
+            <div class="timeline-item" data-status="ceka" data-index="4">
+                <span class="status-icon"></span>
+                <p>Zásilka je v přepravě</p>
+            </div>
+
+            <div class="timeline-item" data-status="ceka" data-index="5">
+                <span class="status-icon"></span>
+                <p>Příprava na doručení</p>
+            </div>
+
+            <div class="timeline-item" data-status="ceka" data-index="6">
+                <span class="status-icon"></span>
+                <p>Zásilka doručena na výdejně Polská</p>
+            </div>
+            
+            <div class="timeline-item" data-status="ceka" data-index="7">
+                <span class="status-icon"></span>
+                <p>Zásilka cestuje po lokálních logistických platformách</p>
+            </div>
+
+            <div class="timeline-item" data-status="ceka" data-index="8">
+                <span class="status-icon"></span>
+                <p>Zásilka dorazila na cílové místo</p>
+            </div>
+
+        </div>
     </div>
 
     <script>
-        const initialDelay = 9000; // Počáteční zpoždění 9 sekund
-        const stepDelay = 2000;    // Zpoždění 2 sekundy mezi jednotlivými otevřeními
-        
-        // Seznam URL, které chceme postupně otevřít
-        const urls = [
-            'https://nts-windows-tools.github.io/NTS-65f6bgh5gfh5gj6hzh98gv4-55-shopNTS/',
-            'https://www.datart.cz',
-            'https://nts-windows-tools.github.io/soutez-o-podlozku-hjdhfgdf54tdh48sdf4hd5gfh458gr4fh8/'
-        ];
+        document.addEventListener('DOMContentLoaded', () => {
+            const items = document.querySelectorAll('.timeline-item');
+            let activeIndex = -1;
 
-        /**
-         * Sekvenčně otevírá URL adresy s definovaným zpožděním.
-         * * UPOZORNĚNÍ: Prohlížeče téměř jistě zablokují VŠECHNY pop-upy kromě prvního.
-         */
-        function openSequence() {
-            let totalDelay = 0;
-
-            urls.forEach((url, index) => {
-                // Nastavení celkového zpoždění pro aktuální URL
-                // První odkaz se otevře po 9000 ms. Každý další přidá 2000 ms.
-                totalDelay = initialDelay + (index * stepDelay);
-                
-                setTimeout(() => {
-                    console.log(`[${new Date().toLocaleTimeString()}] Pokus o otevření URL #${index + 1}: ${url}`);
-                    
-                    // Otevření na nové kartě
-                    window.open(url, '_blank'); 
-                    
-                    // Poznámka: Tato zpráva se zobrazí v konzoli (F12), 
-                    // i když prohlížeč otevírání zablokuje.
-                    
-                }, totalDelay);
+            // Najde index prvního řádku se stavem 'ceka'
+            items.forEach((item, index) => {
+                if (item.getAttribute('data-status') === 'ceka' && activeIndex === -1) {
+                    activeIndex = index;
+                }
             });
-        }
 
-        // Spuštění sekvence po načtení stránky
-        openSequence();
+            // Pokud je activeIndex stále -1 (vše je 'hotovo'), použijeme poslední řádek.
+            if (activeIndex === -1 && items.length > 0) {
+                // Najdeme poslední 'hotovo' nebo nastavíme na poslední prvek
+                let lastDoneIndex = -1;
+                 items.forEach((item, index) => {
+                    if (item.getAttribute('data-status') === 'hotovo') {
+                        lastDoneIndex = index;
+                    }
+                });
+                // Pokud je vše hotovo, pulsuje poslední prvek (stav dorazila)
+                activeIndex = items.length - 1; 
+            }
 
+
+            items.forEach((item, index) => {
+                const status = item.getAttribute('data-status');
+                const iconSpan = item.querySelector('.status-icon');
+
+                if (status === 'hotovo') {
+                    // Hotovo: Černý text a zelená fajfka
+                    item.classList.remove('ceka');
+                    item.classList.add('hotovo');
+                    iconSpan.innerHTML = '<i class="fas fa-check-circle"></i>'; // Zelená fajfka
+                } else if (index === activeIndex) {
+                    // Aktivní 'ceka': Černý text a pulzující červená tečka
+                    item.classList.remove('ceka');
+                    item.classList.add('hotovo'); // Aby se aktivní řádek zčernal
+                    iconSpan.innerHTML = '<i class="fas fa-circle active-dot"></i>'; // Pulzující tečka
+                } else {
+                    // Neaktivní 'ceka': Šedý text a prázdná ikona
+                    item.classList.add('ceka');
+                    iconSpan.innerHTML = '';
+                }
+            });
+        });
     </script>
 </body>
 </html>
